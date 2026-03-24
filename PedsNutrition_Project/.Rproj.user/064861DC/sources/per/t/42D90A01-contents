@@ -240,3 +240,32 @@ View(final_dataset)
 #Save New Dataset
 library(readr)
 write_csv(final_dataset, "final_dataset.csv")
+
+# ========================================================================#
+#####           Missingness exploration: Final_dataset                #####
+# ========================================================================#
+
+# 1. Percent missing per variable
+
+df_final <-final_dataset
+
+library(tidyverse)
+
+missing_summary <- df_final %>%
+  summarise(across(everything(),
+                   ~ mean(is.na(.)) * 100)) %>%
+  pivot_longer(everything(),
+               names_to = "variable",
+               values_to = "percent_missing") %>%
+  arrange(desc(percent_missing))
+
+print(missing_summary)
+
+# 2 Visual inspection of missing data
+
+library(naniar)
+vis_miss(df_final)
+
+# 3. Missingness combinations
+gg_miss_upset(df_final)
+
