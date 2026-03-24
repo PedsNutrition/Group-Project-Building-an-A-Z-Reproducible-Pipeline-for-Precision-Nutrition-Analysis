@@ -1,0 +1,26 @@
+{
+    "id": "372E1223",
+    "path": "~/GitHub/Group-Project-Building-an-A-Z-Reproducible-Pipeline-for-Precision-Nutrition-Analysis/R Codes/1b_missing_data_imputation.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "4265099665",
+    "contents": "",
+    "dirty": false,
+    "created": 1774378933469.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "372,0",
+        "scrollLine": "371"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1774380244,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1774380244290,
+    "read_only": false,
+    "read_only_alternatives": []
+}
