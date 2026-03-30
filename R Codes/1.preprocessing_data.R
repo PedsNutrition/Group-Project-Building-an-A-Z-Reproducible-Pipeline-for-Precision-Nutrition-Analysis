@@ -217,55 +217,30 @@ write_csv(clean_data, "clean_precision_growth_dataset.csv")
 #===========================================================================#
 View(clean_precision_growth_dataset) #first, view the clean dataset
 
-final_dataset <-clean_precision_growth_dataset #create new dataframe for restructuring
+prep_final_dataset <-clean_precision_growth_dataset #create new dataframe for restructuring
 
-colnames(final_dataset) #show all column names
+#show all column names
+colnames(final_dataset)
 
 # Exclude variables
-final_dataset <- subset(final_dataset, select = -Head_circumference_cm)
+prep_final_dataset <- subset(prep_final_dataset, select = -c(Head_circumference_cm, WHO_zBMI_12m,
+                                                   Weight_12m_kg, Shannon_diversity, 
+                                                   Fiber_intake_g, ALT))
 
 # Reorder by column name
-final_dataset <- final_dataset[, c("ID", "Sex", "Age_24m_months", "Gestational_age_weeks",
-                                   "Birth_weight_g", "Weight_6m_kg", "Weight_12m_kg",
-                                   "Weight_24m_kg", "Birth_length_cm", "Length_6m_cm",
-                                   "Length_12m_cm", "Length_24m_cm", "WHO_zBMI_birth",
-                                   "WHO_zBMI_12m", "zBMI_24m", "Stunted_24m", "Maternal_BMI",
-                                   "Energy_intake_kcal", "Fiber_intake_g", "Protein_intake_g", 
+prep_final_dataset <- prep_final_dataset[, c("ID", "Sex", "Age_24m_months", "Gestational_age_weeks",
+                                   "Birth_weight_g", "Weight_6m_kg","Weight_24m_kg", 
+                                   "Birth_length_cm", "Length_6m_cm", "Length_12m_cm", 
+                                   "Length_24m_cm", "WHO_zBMI_birth","zBMI_24m", 
+                                   "Stunted_24m", "Maternal_BMI",
+                                   "Energy_intake_kcal", "Protein_intake_g", 
                                    "Dietary_pattern_score", "Ultra_processed_score", "Fasting_glucose", 
-                                   "CRP", "ALT", "Maternal_education_years", "Household_income_index",
-                                   "Firmicutes_Bacteroidetes_ratio", "Shannon_diversity", "SCFA_index" )]
+                                   "CRP", "Maternal_education_years", "Household_income_index",
+                                   "Firmicutes_Bacteroidetes_ratio", "SCFA_index" )]
 
-View(final_dataset)
+View(prep_final_dataset)
 
-#Save New Dataset
+#Save New Dataset as "final_dataset"
 library(readr)
-write_csv(final_dataset, "final_dataset.csv")
-
-# ========================================================================#
-#####           Missingness exploration: Final_dataset                #####
-# ========================================================================#
-
-# 1. Percent missing per variable
-
-df_final <-final_dataset
-
-library(tidyverse)
-
-missing_summary <- df_final %>%
-  summarise(across(everything(),
-                   ~ mean(is.na(.)) * 100)) %>%
-  pivot_longer(everything(),
-               names_to = "variable",
-               values_to = "percent_missing") %>%
-  arrange(desc(percent_missing))
-
-print(missing_summary)
-
-# 2 Visual inspection of missing data
-
-library(naniar)
-vis_miss(df_final)
-
-# 3. Missingness combinations
-gg_miss_upset(df_final)
+write_csv(prep_final_dataset, "final_dataset.csv")
 
