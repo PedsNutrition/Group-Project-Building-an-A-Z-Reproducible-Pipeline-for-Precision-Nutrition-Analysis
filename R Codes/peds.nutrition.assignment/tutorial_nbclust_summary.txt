@@ -1,0 +1,72 @@
+Error in install.packages : cannot coerce type 'closure' to vector of type 'any'
+               New Mexico      Iowa   Indiana   Arizona Tennessee     Texas
+Iowa            4.1082312                                                  
+Indiana         2.4775986 1.7846775                                        
+Arizona         1.0907378 3.9591819 2.5024750                              
+Tennessee       1.4990012 3.4724739 1.8574561 2.3169189                    
+Texas           1.3824891 3.7468614 2.0384260 1.6405987 1.4956943          
+Oregon          2.1754724 2.3299921 1.1324681 1.9476753 2.1763803 2.2268866
+West Virginia   4.1297061 1.5739722 2.2229105 4.3544334 3.1474682 3.9631926
+Missouri        1.3951436 2.8885151 1.1661044 1.5219757 1.3106718 1.2158464
+Montana         3.0869279 1.2562907 1.0043926 3.2033362 2.2890064 2.8725177
+Nebraska        3.1647982 0.9620290 0.8810612 3.0302391 2.6311604 2.8258957
+California      1.8025742 4.7971697 3.2592923 1.2587645 2.9923364 2.0899781
+South Carolina  1.9621250 4.1334214 2.8509464 2.8719947 1.3852857 2.4693498
+Nevada          1.6284385 5.0562305 3.3639807 1.8578349 2.5524734 2.1047024
+Florida         1.3412730 5.2265362 3.5543219 1.8744570 2.3337108 1.7638102
+                  Oregon West Virginia  Missouri   Montana  Nebraska
+Iowa                                                                
+Indiana                                                             
+Arizona                                                             
+Tennessee                                                           
+Texas                                                               
+Oregon                                                              
+West Virginia  2.9272924                                            
+Missouri       1.0680817     3.1751350                              
+Montana        1.7249703     1.2503714 1.9844533                    
+Nebraska       1.4651232     1.8157092 1.9337313 0.7652157          
+California     2.6178636     5.3248937 2.2101756 4.1110770 3.8705700
+South Carolina 3.1028481     3.4221970 2.4077748 2.9134297 3.4017884
+Nevada         2.8393497     5.3012159 2.2357853 4.1641622 4.1146826
+Florida        3.4087336     5.2173518 2.5030673 4.2233709 4.2851574
+               California South Carolina    Nevada
+Iowa                                              
+Indiana                                           
+Arizona                                           
+Tennessee                                         
+Texas                                             
+Oregon                                            
+West Virginia                                     
+Missouri                                          
+Montana                                           
+Nebraska                                          
+California                                        
+South Carolina  3.7591374                         
+Nevada          1.2179355      3.3378439          
+Florida         2.0746182      2.5258993 1.8538820
+[1] 0
+indexing final_dataset_april.csv [===================================================================] 1.14GB/s, eta:  0s                                                                                                                         [1] 0
+[1] 0
+[1] 0
+[1] 0
+[1] 0
+[1] 0
+                            ID                            Sex                 Age_24m_months 
+                             0                              0                              0 
+         Gestational_age_weeks                 Birth_weight_g                   Weight_6m_kg 
+                             0                              0                              0 
+                 Weight_24m_kg                Birth_length_cm                   Length_6m_cm 
+                             0                              0                              0 
+                 Length_12m_cm                  Length_24m_cm                 WHO_zBMI_birth 
+                             0                              0                              0 
+                      zBMI_24m                    Stunted_24m          Head_circumference_cm 
+                             0                              0                              0 
+                  Maternal_BMI             Energy_intake_kcal               Protein_intake_g 
+                             0                              0                              0 
+         Dietary_pattern_score          Ultra_processed_score                Fasting_glucose 
+                             0                              0                              0 
+                           CRP       Maternal_education_years         Household_income_index 
+                             0                              0                              0 
+Firmicutes_Bacteroidetes_ratio                     SCFA_index 
+                             0                              0 
+indexing final_dataset_april.csv [=================================================================] 842.65MB/s, eta:  0s                                                                                                                         [1] 0
