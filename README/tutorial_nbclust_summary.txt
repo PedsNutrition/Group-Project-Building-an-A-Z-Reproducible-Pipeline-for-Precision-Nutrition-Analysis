@@ -11,8 +11,8 @@ CLUSTERING TENDENCY ANALYSIS — SUMMARY
 Observations: 295
 Clustering variables: 1
 NbClust majority vote: k = 3
-Silhouette-optimal k:  k = 7
-Average silhouette width (final): 0.1266
+Silhouette-optimal k:  k = 3
+Average silhouette width (final): 0.539
 Target met (>= 0.51): CLOSE — see note
 
 Interpretation:
