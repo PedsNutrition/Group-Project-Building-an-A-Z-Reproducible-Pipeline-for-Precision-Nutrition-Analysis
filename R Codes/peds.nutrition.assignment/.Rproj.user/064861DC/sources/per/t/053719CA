@@ -1,0 +1,26 @@
+{
+    "id": "053719CA",
+    "path": "~/GitHub/Group-Project-Building-an-A-Z-Reproducible-Pipeline-for-Precision-Nutrition-Analysis/R Codes/peds.nutrition.assignment/1.preprocessing_data.R",
+    "project_path": "1.preprocessing_data.R",
+    "type": "r_source",
+    "hash": "3974188968",
+    "contents": "",
+    "dirty": false,
+    "created": 1775482911801.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "444,53",
+        "scrollLine": "415"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1775486722,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1775486722258,
+    "read_only": false,
+    "read_only_alternatives": []
+}
