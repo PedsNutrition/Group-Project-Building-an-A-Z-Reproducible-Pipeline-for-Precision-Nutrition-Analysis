@@ -106,6 +106,9 @@ The following preprocessing steps were applied:
   
 # Precision Nutrition Insights:
 This data pipeline identified growth trajectory clusters providing a framework to evaluate how maternal nutrition and socioeconomic factors relate to child growth, enabling targeted, evidence-based nutritional guidance.
+This pipeline can be leveraged to identify predictors of characteristics of the child, including zBMI at 24 months, to aid in determining maternal dietary factors that influence growth outcomes and establish dietary strategies during pregnancy to promote healthy growth trajectories in the offspring.
+This analysis may also aid in better understanding why child characteristics are heterogeneous and establish predictors, both individually and collectively.
+Overall, this work may contribute to establishing individualized nutritional interventions rather than providing general one-size-fits-all guidelines.
 
 # Model Limitations: 
 - Cross-sectional, cannot infer causality
