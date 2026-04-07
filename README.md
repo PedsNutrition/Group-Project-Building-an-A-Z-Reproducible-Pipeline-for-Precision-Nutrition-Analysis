@@ -50,7 +50,7 @@ Run the scripts in the following order:
 - General Pipeline:
    - YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
 - Specific Pipeline:
-1. 1.preprocessing_data.R (cleanining data and generating the full_dataset_april.csv file)
+1. 1.preprocessing_data.R (cleaning data and generating the final_clean_data.csv file)
 2. 2.assessing_clustering_tendency.R (cluster tendency)
 3. 3.dist_computation.R (code to visualize and assess Euclidean and Manhattan distances of zBMI at 24 months)
 4. 4.clustering.R (code to cluster zBMI at 24 months)
