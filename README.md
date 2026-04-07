@@ -63,7 +63,7 @@ Specific Pipeline:
 4. 4.clustering.R (code to cluster zBMI at 24 months)
 5. 5.clust_validation.R (code for validating zBMI at 24 months clusters)
 Additional Script to Assess zBMI data at 24 months:
-7. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
+Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
 
 # Data Cleaning & Preparation:
 The following preprocessing steps were applied:
