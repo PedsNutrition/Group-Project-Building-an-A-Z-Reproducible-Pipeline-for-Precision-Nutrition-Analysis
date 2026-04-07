@@ -114,7 +114,7 @@ Overall, by better understading how multi-dimension data influences offspring ou
 # Reproducibility:
 - This analysis pipeline uses data and R scripts available on this repository, allowing for full reproducibility of this analysis pipeline.
 - For Euclidean and Manhattan distances, set.seed() was applied to produce a smaller subset of random values for visualization.
-- IDs of the individuals removed from final dataset (final_dataset_april.csv) are listed in the CRISP-DM report.
+- IDs of the individuals removed from final dataset (final_clean_data.csv) are listed in the CRISP-DM report.
 
 # Ethical Considerations:
 Ethical considerations for its implementation will also be made, particularly if any socioeconomic factors are found to be strongly associated with zBMI scores. Care must be taken to avoid stigmatization or inappropriate use of socioeconomic predictors in clinical decision-making.  
