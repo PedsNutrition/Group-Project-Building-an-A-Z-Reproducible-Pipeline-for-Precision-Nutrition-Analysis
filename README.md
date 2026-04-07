@@ -68,7 +68,7 @@ The following preprocessing steps were applied:
    - Any biologically implausible data was removed
 3. Missing data
     - Missing data was assessed (heatmaps, UpSet plots)
-    - No missing data in key variables -> no imputations applied
+    - No missing data in key variables → no imputations applied
 4. Data transformation
     - Normality assessed using histograms
     - Skewed variables (e.g., CRP) were log1p-transformed
