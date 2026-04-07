@@ -10,33 +10,18 @@
 #
 # Versions:
 #   
-#
-# == DO NOT SIMPLY  source()  THIS FILE! =======================================
-#
-# If there are portions you don't understand, use R's help system, Google for an
-# answer, or ask your instructor. Don't continue if you don't understand what's
-# going on. 
-#
-# ==============================================================================
-
-#== Objectives ==================================================================
-
-# We will start by describing why clustering tendency is necessary before applying 
-# any clustering method on a data. Next, we will apply visual and statistical 
-# visual methods for assessing the clustering tendency.
-
-# Please cite: :Massara P, Keown-Stoneman CD, Erdman L, Ohuma EO, Bourdon C, Maguire JL,
+# Relevant citation: :Massara P, Keown-Stoneman CD, Erdman L, Ohuma EO, Bourdon C, Maguire JL,
 # Comelli EM, Birken C, Bandsma RH. Identifying longitudinal-growth patterns from infancy 
 # to childhood: a study comparing multiple clustering techniques. Int J Epidemiol. 2021
 
-#TOC> ==========================================================================
+#TOC> ====================================================================2======
 #TOC>
 #TOC>   Section  Title                                            Line
 #TOC> -----------------------------------------------------------------
-#TOC>   1        Packages                                          39
-#TOC>   2        Data preparation                                  52      
-#TOC>   3        Visual inspection                                 75
-#TOC>   4        Why assessing clustering tendency is important?   91                
+#TOC>   1        Packages                                          28
+#TOC    2        Histogram of Raw zBMI Scores                      58
+#TOC>   3        NbClust Analysis                                 100      
+#TOC>   4        Visualizing Clustering                           120            
 #TOC>
 #TOC> ===========================================================================
 
@@ -68,11 +53,9 @@ cat("Observations available for clustering:", nrow(data), "\n")
 cat("Observations excluded due to missing zBMI_24m:", nrow(clean_data)- nrow(data), "\n")
 
 # Scale the data
-data_scaled <- scale(data)
+data_scaled <- scale(data)  # Scaling applied for consistency
 
-# ============================================================================
-# PLOT 0: HISTOGRAM — Raw zBMI_24m Distribution 
-# ============================================================================
+# =  2   Histogram of Raw zBMI_24m Distributions  ====================================
 
 # Shows overall distribution before clustering, with normal curve overlay
 # Used to assess heterogeneity and modality of the data
@@ -112,10 +95,9 @@ plot0 <- ggplot(hist_df, aes(x = zBMI_24m)) +
   )
 
 ggsave("zBMI_24m_plot0_histogram.png", plot0, width = 10, height = 7, dpi = 300, bg = "white")
-ggsave("zBMI_24m_plot0_histogram.svg", plot0, width = 10, height = 7, bg = "white")
 plot0
 
-# ===== 2. NBClust analysis to determine optimal number of clusters=============
+# ===== 3   NBClust analysis to determine optimal number of clusters =========================
 
 cat("Running NbClust analysis for zBMI 24m...\n")
 cat("Testing cluster numbers from 2 to 8...\n\n")
@@ -134,6 +116,8 @@ votes <- nbclust_result$Best.nc[1,]
 votes <- votes[votes != 0]  # remove non-applicable indices
 optimal_k <- as.numeric(names(which.max(table(votes))))
 cat(sprintf("\nOptimal number of clusters: %d\n", optimal_k))
+
+# ====== 4    Visualizing Clustering ======================================================
 
 # ============================================================================
 # PLOT 1: VOTING RESULTS
@@ -163,7 +147,9 @@ plot1 <- ggplot(vote_df, aes(x = k, y = Votes, fill = k == optimal_k)) +
     panel.grid.major.y = element_line(color = "grey90", linewidth = 0.3),
     plot.margin = margin(20, 20, 20, 20)
   )
+ggsave("zBMI_24m_plot1_votes.png", plot1, width = 10, height = 7, dpi = 300, bg = "white")
 plot1
+
 #===========================================================================
 # PLOT 2: ELBOW METHOD
 # ============================================================================
@@ -206,6 +192,7 @@ plot2 <- ggplot(elbow_df, aes(x = k, y = WSS)) +
     panel.grid.major = element_line(color = "grey90", linewidth = 0.3),
     plot.margin = margin(20, 20, 20, 20)
   )
+ggsave("zBMI_24m_plot2_elbow.png", plot2, width = 10, height = 7, dpi = 300, bg = "white")
 plot2
 
 # ============================================================================
@@ -239,9 +226,7 @@ plot3 <- fviz_silhouette(sil, print.summary = FALSE) +
   )
 
 ggsave("zBMI_24m_plot3_silhouette.png", plot3, width = 11, height = 7, dpi = 300, bg = "white")
-ggsave("zBMI_24m_plot3_silhouette.svg", plot3, width = 11, height = 7, bg = "white")
 plot3
-
 
 # Silhouette Analysis: works with any distance metric, detects cluster separation,
 # and cohesion 
@@ -263,6 +248,7 @@ plot4 <- ggplot(plot4_df, aes(x = zBMI_24m, fill = Cluster)) +
     y = "Density"
   ) +
   theme_classic(base_size = 16)
+ggsave("zBMI_24m_plot4_density.png", plot4, width = 10, height = 7, dpi = 300, bg = "white")
 plot4
 # ============================================================================
 # PLOT 5: COMPARISON OF MULTIPLE K VALUES
@@ -304,7 +290,7 @@ plot5 <- grid.arrange(
     gp = grid::gpar(fontsize = 20, fontface = "bold")
   )
 )
-
+ggsave("zBMI_24m_plot5_kmeans_comparison.png", plot5, width = 10, height = 7, dpi = 300, bg = "white")
 
 # ============================================================================
 # PLOT 6: INDEX HEATMAP
@@ -345,7 +331,7 @@ plot6 <- ggplot(index_matrix, aes(x = Optimal_k, y = reorder(Index, Index_num)))
     panel.grid = element_blank(),
     plot.margin = margin(20, 20, 20, 20)
   )
-
+ggsave("zBMI_24m_plot6_heatmap.png", plot6, width = 10, height = 7, dpi = 300, bg = "white")
 plot6
 # ============================================================================
 # CREATE COMBINED FIGURE
@@ -360,55 +346,5 @@ combined <- grid.arrange(
     vjust = 1
   )
 )
-
-# ============================================================================
-# GENERATE SUMMARY REPORT
-# ============================================================================
-
-sink("zBMI_24m_nbclust_summary.txt")
-
-cat("=" %>% rep(80) %>% paste(collapse = ""), "\n")
-cat("NbClust zBMI 24m - ANALYSIS SUMMARY\n")
-cat("=" %>% rep(80) %>% paste(collapse = ""), "\n\n")
-
-cat("DATASET INFORMATION:\n")
-cat(sprintf("  • Number of observations: %d\n", nrow(data_scaled)))
-cat(sprintf("  • Number of features: %d\n", ncol(data_scaled)))
-cat(sprintf("  • True number of clusters: %d\n\n", optimal_k)) 
-
-cat("NBCLUST RECOMMENDATION:\n")
-cat(sprintf("  • Optimal number of clusters: %d\n", optimal_k))
-cat(sprintf("  • Number of indices tested: %d\n", length(index_votes)))
-cat("\n")
-
-cat("VOTING BREAKDOWN:\n")
-for (i in 1:nrow(vote_df)) {
-  cat(sprintf("  • k = %d: %d votes\n", vote_df$k[i], vote_df$Votes[i]))
-}
-cat("\n")
-
-cat("CLUSTER QUALITY METRICS:\n")
-cat(sprintf("  • Average Silhouette Width: %.3f\n", avg_sil_width))
-cat(sprintf("  • Total Within-Cluster SS: %.2f\n", km_optimal$tot.withinss))
-cat(sprintf("  • Between-Cluster SS / Total SS: %.1f%%\n", 
-            100 * km_optimal$betweenss / km_optimal$totss))
-cat("\n")
-
-cat("INTERPRETATION GUIDE:\n")
-cat("  • Silhouette width > 0.50: Good cluster structure\n")
-cat("  • Silhouette width 0.25-0.50: Weak cluster structure\n")
-cat("  • Silhouette width < 0.25: No substantial cluster structure\n\n")
-
-cat("FILES GENERATED:\n")
-cat("  1. zBMI_24m_plot1_voting.png/svg - Voting results\n")
-cat("  2. zBMI_24m_plot2_elbow.png/svg - Elbow method\n")
-cat("  3. zBMI_24m_plot3_silhouette.png/svg - Silhouette analysis\n")
-cat("  4. zBMI_24m_plot4_pca.png/svg - PCA visualization\n")
-cat("  5. zBMI_24m_plot5_comparison.png/svg - Multiple k comparison\n")
-cat("  6. zBMI_24m_plot6_index_heatmap.png/svg - Index recommendations\n")
-cat("  7. zBMI_24m_combined_all.png/pdf - Combined figure\n")
-cat("  8. zBMI_24m_nbclust_summary.txt - This summary\n\n")
-
-cat("=" %>% rep(80) %>% paste(collapse = ""), "\n")
 
 sink()
