@@ -21,7 +21,7 @@ Using BMI-for-age z-scores (zBMI), standardized by the WHO Child Growth Standard
 # Research Question:
 Are maternal dietary, gut microbiome, and socioeconomic factors associated with early childhood growth patterns, as defined by BMI-for-age z scores (zBMI)-based cluster patterns, at 24 months of age?
 
-# Dataset Description
+# Dataset Description:
 This dataset contains data collected from ~300 children at 24 months of age, and includes 32 variables across multiple domains:
 - Maternal dietary factors: energy intake (kcal), fiber intake (g), protein intake (g), ultra-processed food score, dietary pattern score
 - Microbiome factors: Firmicutes:Bacteroidetes ratio, Shannon diversity index, short-chain fatty acid (SCFA) index
@@ -41,11 +41,11 @@ Ultra-processed food score, energy intake, and household income were used as mat
 - 'NFS1218_Pediatric Nutrition Pipeline.docx' | CRISP-DM report
 - 'README.docx' | Draft of the README file
 
-# Installation
+# Installation:
 - Clone the repository
 - Open R scripts in RStudio
 
-# How to Run the Analysis
+# How to Run the Analysis:
 Run the scripts in the following order:
 1. YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
 2. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
@@ -66,7 +66,7 @@ The following preprocessing steps were applied:
     - Skewed variables (e.g., CRP) were log1p-transformed
     - Continuous variables were scaled prior to clustering
 
-# Analytical Approach
+# Analytical Approach:
 1. Data preparation
     - Cleaned and standardized dataset was used for analysis
 3. Clustering tendency assessment
