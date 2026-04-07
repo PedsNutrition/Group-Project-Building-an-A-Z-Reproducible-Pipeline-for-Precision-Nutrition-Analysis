@@ -6,7 +6,7 @@ Brinley Klievik,
 Triyani Komang,
 Eva Kranenburg
 
-# The sections below will follow the CRISP-DM framework:
+# The Sections Below Will Follow the CRISP-DM Framework:
 - Project Understanding: Research question and exposures
 - Data Understanding: Exploring the dataset and data distributions
 - Data Preparation: Cleaning data, handling missingness, and transforming variables as appropriate
