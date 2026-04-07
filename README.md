@@ -30,18 +30,25 @@ This dataset contains data collected from ~300 children at 24 months of age, and
 - Clinical biomarkers: fasting glucose (mmol/L), C-reactive protein (CRP), alanine aminotransferase (ALT)
 - Child growth measures: sex, age, weight and length at multiple time points (0, 6, 12, 24 months), BMI, and BMI-for-age z-scores (zBMI)
 zBMI at 24 months was used for clustering analysis.
-Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations. 
+Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations.
+
+# Files in this repository:
+- 'YTC_Group Project R codes.R' | Main R script containing the codes for data cleaning, clustering, and profiling
+- 'Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R' | R script for generating Graphs 21 and 22 for biological interpretation of zBMI clusters
+- 'final_dataset_april.csv' | Cleaned dataset used in the analysis
+- 'mock_precision_growth_datset.csv' | Original full dataset used in the preprocessing steps
+- 'zBMI_24m Clustering Graphs.pptx' | PowerPoint of zBMI Clustering graphs
+- 'NFS1218_Pediatric Nutrition Pipeline.docx' | CRISP-DM report
+- 'README.docx' | Draft of the README file
 
 # Installation
 - Clone the repository
-- Open the project in RStudio
-- Install the required packages:
-  - install.packages(c("tidyverse","cluster","factoextra","NbClust"
+- Open R scripts in RStudio
 
 # How to Run the Analysis
 Run the scripts in the following order:
-1. Preprocessing data
-2. 
+1. YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
+2. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
 
 # Data Cleaning & Preparation:
 The following preprocessing steps were applied:
@@ -96,7 +103,7 @@ This data pipeline identified growth trajectory clusters providing a framework t
 # Reproducibility:
 - This analysis pipeline uses data and R scripts available on this repository, allowing for full reproducibility of this analysis pipeline.
 - For Euclidean and Manhattan distances, set.seed() was applied to produce a smaller subset of random values for visualization.
-- Biologically implausible age values and zBMI scores were removed from the dataset during preprocessing. The IDs of the individuals removed from downstream analyses are listed in the CRISP-DM report.
+- IDs of the individuals removed from final dataset (final_dataset_april.csv) are listed in the CRISP-DM report.
 
 # Ethical Considerations:
 Ethical considerations for its implementation will also be made, particularly if any socioeconomic factors are found to be strongly associated with zBMI scores. Care must be taken to avoid stigmatization or inappropriate use of socioeconomic predictors in clinical decision-making.  
