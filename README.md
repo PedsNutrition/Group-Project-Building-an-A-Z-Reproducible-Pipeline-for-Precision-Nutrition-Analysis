@@ -6,6 +6,14 @@ Brinley Klievik,
 Triyani Komang,
 Eva Kranenburg
 
+The sections below will follow the CRISP-DM framework:
+- Project Understanding: Research question and exposures
+- Data Understanding: Exploring the dataset and data distributions
+- Data Preparation: Cleaning data, handling missingness, and transforming variables as appropriate
+- Modelling: Unsupervised clustering of zBMI scores at 24 months
+- Evaluation: Assessment of clustering validity using statistical and biological approaches
+- Deployment: Generated precision nutrition insights and potential application
+
 # Project Overview:
 This repository applies the CRISP-DM framework to investigate whether maternal dietary and socioeconomic factors are associated with early childhood growth patterns at 24 months.
 Using BMI-for-age z-scores (zBMI), standardized by the WHO Child Growth Standards, this pipeline is designed to identify distinct growth subgroups through unsupervised clustering. These subgroups will then be used to evaluate associations with maternal exposures and generate precision nutrition insights.
@@ -22,10 +30,13 @@ This dataset contains data collected from ~300 children at 24 months of age, and
 - Clinical biomarkers: fasting glucose (mmol/L), C-reactive protein (CRP), alanine aminotransferase (ALT)
 - Child growth measures: sex, age, weight and length at multiple time points (0, 6, 12, 24 months), BMI, and BMI-for-age z-scores (zBMI)
 zBMI at 24 months was used for clustering analysis.
+Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations. 
 
 # Installation
 - Clone the repository
-- Download and open the R scripts
+- Open the project in RStudio
+- Install the required packages:
+  - install.packages(c("tidyverse","cluster","factoextra","NbClust"
 
 # How to Run the Analysis
 Run the scripts in the following order:
@@ -44,22 +55,48 @@ The following preprocessing steps were applied:
     - Missing data was assessed (heatmaps, UpSet plots)
     - No missing data in key variables -> no imputations applied
 4. Data transformation
-    - Normality assesed using histograms
+    - Normality assessed using histograms
     - Skewed variables (e.g., CRP) were log1p-transformed
     - Continuous variables were scaled prior to clustering
 
 # Analytical Approach
-1. Data was cleaned and missingness was address
-2. Clustering tendency assessment
-    - Euclidian and Manhattan distance metrics
-    - Hopkins statistics used to confirm clustering
-3. Clustering analysis
+1. Data preparation
+    - Cleaned and standardized dataset was used for analysis
+3. Clustering tendency assessment
+    - Euclidean and Manhattan distance metrics
+    - Hopkins statistic used to confirm clustering
+4. Clustering analysis
     - Optimal cluster number determined using:
          - Elbow method
          - Silhouette analysis
-         - NbClust
-    - Clustering methods:
+         - NbClust (majority voting across indices)
+    - Unsupervised clustering methods:
          - K-means
          - PAM (Partitioning Around Medoids)
          - Hierarchical clustering
+5. Cluster validation
+    - Clustering validity was assessed using complementary approaches to ensure robust and biologically meaningful cluster identification:
+         - Internal validation metrics: Connectivity, Dunn Index, and Silhouette Width were used to evaluate cluster cohesion and separation
+         - Method comparison: clustering results were compared across K-means, PAM, and hierarchical methods to assess consistency
+         - Cluster number validation: agreement across NbClust, Elbow method, and Silhouette analysis supported the selection of k=3
+         - Biological validation: identified clusters reflected biologically plausible growth patterns (lower, normal, higher zBMI scores at 24 months), supporting interpretability
+6. Cluster profiling
+    - zBMI clusters were merged with our exposures of interest (ultra-processed food score, total energy intake, and household income) to evaluate potential associations with early childhood growth patterns.
+  
+# Precision Nutrition Insights:
+This data pipeline identified growth trajectory clusters providing a framework to evaluate how maternal nutrition and socioeconomic factors relate to child growth, enabling targeted, evidence-based nutritional guidance.
 
+# Model Limitations: 
+- Cross-sectional, cannot infer causality
+- Potential residual confounding
+- Dietary intake may have reporting bias
+- Small cluster size may result in reduced statistical power
+- Findings may not be generalizable beyond this cohort
+
+# Reproducibility:
+- This analysis pipeline uses publicly available data and R scripts allowing for full reproducibility of the attached files.
+- For Euclidean and Manhattan distances, set.seed() was applied to produce a smaller subset of random values for visualization.
+- Biologically implausible age values and zBMI scores were removed from the dataset during preprocessing. The IDs of the individuals removed from downstream analyses are listed in the CRISP-DM report.
+
+# Ethical Considerations:
+Ethical considerations for its implementation will also be made, particularly if any socioeconomic factors are found to be strongly associated with zBMI scores. Care must be taken to avoid stigmatization or inappropriate use of socioeconomic predictors in clinical decision-making.  
