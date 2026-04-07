@@ -33,6 +33,12 @@ zBMI at 24 months was used for clustering analysis.
 Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations.
 
 # Files in this repository:
+- '1.preprocessing_data.R' | R script containing the index heatmap depicted in Graph 7 of the CRISP-DM report
+- '2.assessing_clustering_tendency.R' | Supplementary R script assessing clustering tendency
+- '3.dist_computation.R' | R script containing the code to generate randomized subsets of data for Euclidean and Manhattan plots using set.seed()
+- '4.clustering.R' | Supplementary R script assessing clustering
+- '5.clust_validation.R' | Supplementary R script validating clustering
+- 'Data_manipulation.Rmd' |
 - 'YTC_Group Project R codes.R' | Main R script containing the codes for data cleaning, clustering, and profiling
 - 'Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R' | R script for generating Graphs 21 and 22 for biological interpretation of zBMI clusters
 - 'final_dataset_april.csv' | Cleaned dataset used in the analysis
@@ -47,8 +53,9 @@ Ultra-processed food score, energy intake, and household income were used as mat
 
 # How to Run the Analysis:
 Run the scripts in the following order:
-1. YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
-2. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
+1. 1.preprocessing_data.R (cleanining data and generating the full_dataset_april.csv file)
+2. YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
+3. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
 
 # Data Cleaning & Preparation:
 The following preprocessing steps were applied:
