@@ -1,0 +1,310 @@
+# CLUSTER PROFILING TABLE
+#
+# Version:  1.0
+# Date:     2026 Apr
+#
+# Builds a formatted cluster profiling table comparing mean predictor values
+# across three zBMI_24m growth clusters (Lower / Normal / Higher Growth).
+# Output: cluster_profiling_table.csv  +  cluster_profiling_table.html
+#
+# Requires: dplyr, gt, gtExtras (or flextable as fallback)
+# ==============================================================================
+
+# =  1  Packages  ==============================================================
+
+packages <- c("dplyr", "gt", "gtExtras")
+
+for (pkg in packages) {
+  if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+
+# =  2  Load data & run k-means  ===============================================
+
+data <- read.csv("final_clean_data.csv")
+
+# Scale zBMI_24m for clustering
+df_full   <- data[!is.na(data$zBMI_24m), "zBMI_24m", drop = FALSE]
+df_scaled <- scale(df_full)
+
+set.seed(123)
+km.res <- kmeans(df_scaled, centers = 3, nstart = 25)
+
+# Attach cluster labels to data (only complete-case rows)
+data_clustered           <- data[!is.na(data$zBMI_24m), ]
+data_clustered$Cluster   <- km.res$cluster
+
+# Rank clusters by mean zBMI and assign growth group labels
+zbmi_rank <- data_clustered %>%
+  group_by(Cluster) %>%
+  summarise(mean_zBMI = mean(zBMI_24m, na.rm = TRUE)) %>%
+  arrange(mean_zBMI) %>%
+  mutate(Growth_Group = c("Lower Growth", "Normal Growth", "Higher Growth"))
+
+data_clustered <- data_clustered %>%
+  left_join(zbmi_rank %>% select(Cluster, Growth_Group), by = "Cluster")
+
+# =  3  Define predictors  =====================================================
+
+predictors <- c(
+  "zBMI_24m",
+  "Maternal_BMI",
+  "Energy_intake_kcal",
+  "Fiber_intake_g",
+  "Ultra_processed_score",
+  "Dietary_pattern_score",
+  "Protein_intake_g",
+  "log_CRP",
+  "Fasting_glucose",
+  "ALT",
+  "Shannon_diversity",
+  "Firmicutes_Bacteroidetes_ratio",
+  "SCFA_index",
+  "Household_income_index",
+  "Maternal_education_years"
+)
+
+# =  4  Compute cluster means  =================================================
+
+profile_long <- data_clustered %>%
+  group_by(Growth_Group) %>%
+  summarise(
+    n          = n(),
+    across(all_of(predictors), ~ round(mean(.x, na.rm = TRUE), 3))
+  )
+
+# Pivot to wide: one row per predictor, one column per cluster
+profile_wide <- profile_long %>%
+  select(-n) %>%
+  tidyr::pivot_longer(cols = all_of(predictors),
+                      names_to  = "Predictor",
+                      values_to = "Mean") %>%
+  tidyr::pivot_wider(names_from  = "Growth_Group",
+                     values_from = "Mean")
+
+# Add n counts as a separate header row (stored for subtitle use)
+cluster_n <- profile_long %>%
+  select(Growth_Group, n) %>%
+  deframe()   # named vector  Growth_Group -> n
+
+# Reorder columns: Lower / Normal / Higher
+profile_wide <- profile_wide %>%
+  select(Predictor, `Lower Growth`, `Normal Growth`, `Higher Growth`)
+
+# =  5  Add section labels & readable predictor names  ========================
+
+section_map <- c(
+  zBMI_24m                       = "Growth outcome",
+  Maternal_BMI                   = "Maternal anthropometry",
+  Energy_intake_kcal             = "Maternal dietary intake",
+  Fiber_intake_g                 = "Maternal dietary intake",
+  Ultra_processed_score          = "Maternal dietary intake",
+  Dietary_pattern_score          = "Maternal dietary intake",
+  Protein_intake_g               = "Maternal dietary intake",
+  log_CRP                        = "Maternal clinical markers",
+  Fasting_glucose                = "Maternal clinical markers",
+  ALT                            = "Maternal clinical markers",
+  Shannon_diversity              = "Child gut microbiome",
+  Firmicutes_Bacteroidetes_ratio = "Child gut microbiome",
+  SCFA_index                     = "Child gut microbiome",
+  Household_income_index         = "Socioeconomic factors",
+  Maternal_education_years       = "Socioeconomic factors"
+)
+
+label_map <- c(
+  zBMI_24m                       = "zBMI at 24 months",
+  Maternal_BMI                   = "Maternal BMI (kg/m²)",
+  Energy_intake_kcal             = "Energy intake (kcal)",
+  Fiber_intake_g                 = "Fiber intake (g)",
+  Ultra_processed_score          = "Ultra-processed food score",
+  Dietary_pattern_score          = "Dietary pattern score",
+  Protein_intake_g               = "Protein intake (g)",
+  log_CRP                        = "log CRP (mg/L)",
+  Fasting_glucose                = "Fasting glucose (mmol/L)",
+  ALT                            = "ALT (U/L)",
+  Shannon_diversity              = "Shannon diversity index",
+  Firmicutes_Bacteroidetes_ratio = "Firmicutes:Bacteroidetes ratio",
+  SCFA_index                     = "SCFA index",
+  Household_income_index         = "Household income index",
+  Maternal_education_years       = "Maternal education (years)"
+)
+
+profile_wide <- profile_wide %>%
+  mutate(
+    Section   = section_map[Predictor],
+    Label     = label_map[Predictor],
+    .before   = `Lower Growth`
+  )
+
+# =  6  Save raw CSV  ==========================================================
+
+write.csv(profile_wide, "cluster_profiling_table.csv", row.names = FALSE)
+cat("Saved: cluster_profiling_table.csv\n")
+
+# =  7  Build formatted gt table  ==============================================
+
+# Column headers including n counts
+col_lower  <- paste0("Lower Growth\nn = ",  cluster_n["Lower Growth"])
+col_normal <- paste0("Normal Growth\nn = ", cluster_n["Normal Growth"])
+col_higher <- paste0("Higher Growth\nn = ", cluster_n["Higher Growth"])
+
+names(profile_wide)[names(profile_wide) == "Lower Growth"]  <- col_lower
+names(profile_wide)[names(profile_wide) == "Normal Growth"] <- col_normal
+names(profile_wide)[names(profile_wide) == "Higher Growth"] <- col_higher
+
+gt_table <- profile_wide %>%
+  select(-Predictor) %>%
+  gt(groupname_col = "Section",
+     rowname_col   = "Label") %>%
+  
+  # --- Table title ---
+  tab_header(
+    title    = md("**Cluster Profiling — Predictor Means by Growth Group**"),
+    subtitle = md("K-means clustering on scaled zBMI at 24 months (k = 3, seed = 123)")
+  ) %>%
+  
+  # --- Column labels ---
+  cols_label(
+    !!col_lower  := md(paste0("**Lower Growth**<br><small>n = ", cluster_n["Lower Growth"],  "</small>")),
+    !!col_normal := md(paste0("**Normal Growth**<br><small>n = ", cluster_n["Normal Growth"], "</small>")),
+    !!col_higher := md(paste0("**Higher Growth**<br><small>n = ", cluster_n["Higher Growth"], "</small>"))
+  ) %>%
+  
+  # --- Row group styling ---
+  tab_style(
+    style = list(
+      cell_fill(color = "#F5F5F5"),
+      cell_text(weight = "bold", size = px(11), transform = "uppercase",
+                color = "#666666")
+    ),
+    locations = cells_row_groups()
+  ) %>%
+  
+  # --- Stub (predictor label) styling ---
+  tab_style(
+    style = cell_text(indent = px(8)),
+    locations = cells_stub()
+  ) %>%
+  
+  # --- Higher Growth column header badge (coral) ---
+  tab_style(
+    style = cell_fill(color = "#FAECE7"),
+    locations = cells_column_labels(columns = !!col_higher)
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#993C1D", weight = "bold"),
+    locations = cells_column_labels(columns = !!col_higher)
+  ) %>%
+  
+  # --- Lower Growth column header badge (green) ---
+  tab_style(
+    style = cell_fill(color = "#EAF3DE"),
+    locations = cells_column_labels(columns = !!col_lower)
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#3B6D11", weight = "bold"),
+    locations = cells_column_labels(columns = !!col_lower)
+  ) %>%
+  
+  # --- Normal Growth column header badge (blue) ---
+  tab_style(
+    style = cell_fill(color = "#E6F1FB"),
+    locations = cells_column_labels(columns = !!col_normal)
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#185FA5", weight = "bold"),
+    locations = cells_column_labels(columns = !!col_normal)
+  ) %>%
+  
+  # --- Highlight highest value per row (coral) ---
+  tab_style(
+    style = cell_text(color = "#993C1D", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_higher,
+      rows    = !!as.symbol(col_higher) > !!as.symbol(col_lower) &
+        !!as.symbol(col_higher) > !!as.symbol(col_normal)
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#993C1D", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_lower,
+      rows    = !!as.symbol(col_lower) > !!as.symbol(col_higher) &
+        !!as.symbol(col_lower) > !!as.symbol(col_normal)
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#993C1D", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_normal,
+      rows    = !!as.symbol(col_normal) > !!as.symbol(col_higher) &
+        !!as.symbol(col_normal) > !!as.symbol(col_lower)
+    )
+  ) %>%
+  
+  # --- Highlight lowest value per row (green) ---
+  tab_style(
+    style = cell_text(color = "#3B6D11", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_higher,
+      rows    = !!as.symbol(col_higher) < !!as.symbol(col_lower) &
+        !!as.symbol(col_higher) < !!as.symbol(col_normal)
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#3B6D11", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_lower,
+      rows    = !!as.symbol(col_lower) < !!as.symbol(col_higher) &
+        !!as.symbol(col_lower) < !!as.symbol(col_normal)
+    )
+  ) %>%
+  tab_style(
+    style = cell_text(color = "#3B6D11", weight = "bold"),
+    locations = cells_body(
+      columns = !!col_normal,
+      rows    = !!as.symbol(col_normal) < !!as.symbol(col_higher) &
+        !!as.symbol(col_normal) < !!as.symbol(col_lower)
+    )
+  ) %>%
+  
+  # --- Align values to centre ---
+  cols_align(align = "center",
+             columns = c(!!col_lower, !!col_normal, !!col_higher)) %>%
+  
+  # --- Source note ---
+  tab_source_note(
+    source_note = md(
+      "Values are unadjusted cluster means. **Coral** = highest mean across clusters; **Green** = lowest mean across clusters.  
+       Clustering performed on scaled zBMI_24m using k-means (seed = 123, nstart = 25)."
+    )
+  ) %>%
+  
+  # --- Overall table options ---
+  tab_options(
+    table.width                   = pct(100),
+    table.font.size               = px(13),
+    heading.title.font.size       = px(15),
+    heading.subtitle.font.size    = px(12),
+    row_group.font.size           = px(11),
+    column_labels.font.weight     = "bold",
+    stub.font.size                = px(13),
+    row.striping.include_table_body = TRUE,
+    row.striping.background_color   = "#FAFAFA",
+    table.border.top.color        = "black",
+    table.border.bottom.color     = "black",
+    column_labels.border.bottom.color = "black"
+  )
+
+# =  8  Save HTML output  ======================================================
+
+gtsave(gt_table, "cluster_profiling_table.html")
+cat("Saved: cluster_profiling_table.html\n")
+
+# Optional: save as PNG (requires webshot2 package)
+# gtsave(gt_table, "cluster_profiling_table.png")
+
+# Print to viewer
+gt_table

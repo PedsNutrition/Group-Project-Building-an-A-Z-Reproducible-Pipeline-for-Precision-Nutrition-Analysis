@@ -41,6 +41,7 @@
 #TOC> ==========================================================================
 
 # ======    1  Packages  =======================================================
+packages <- c("tidyverse", "naniar", "skimr", "ggplot2", "dplyr")
 
 for (pkg in packages) {
   if (!require(pkg, character.only = TRUE)) {
@@ -410,22 +411,22 @@ stripplot(imp)       # categorical checks
 
 # Step 6: Save imputed dataset
 library(readr)
-clean_imp_data <- complete(imp, 1)
-write_csv(clean_imp_data, "clean_imp_data.csv")
+clean_imp <- complete(imp, 1)
+write_csv(clean_imp_data, "clean_imp.csv")
 
 # Step 7: Recalculate missingness after cleaning
 complete_data <- complete(imp, 1)  # extract first imputed dataset
-colSums(is.na(complete_data[, c("ALT", "Fiber_intake_g", "Shannon_diversity", "Weight_12m_kg")]))
+colSums(is.na(complete_data[, c("ALT", "Fiber_intake_g", "Shannon_diversity", "Weight_12m_kg", "log_CRP")]))
 
 #===========================================================================#
 #                       RESTRUCTURING DATASET                               #
 #===========================================================================#
-View(clean_imp_data) #Recall again the clean imputed dataset
+View(clean_imp) #Recall again the clean imputed dataset
 
-prep_final_dataset <-clean_imp_data #create new dataframe for restructuring
+prep_final_dataset <-clean_imp #create new dataframe for restructuring
 
 #show all column names
-colnames(clean_imp_data)
+colnames(clean_imp)
 
 # Reorder by column name
 prep_final_dataset <- prep_final_dataset[, c("ID", "Sex", "Age_24m_months", "Gestational_age_weeks",
@@ -440,7 +441,7 @@ prep_final_dataset <- prep_final_dataset[, c("ID", "Sex", "Age_24m_months", "Ges
 
 View(prep_final_dataset)
 
-#Save New Dataset as "final_dataset_april"
+#Save New Dataset as "final_dataset"
 library(readr)
 write_csv(prep_final_dataset, "final_clean_data.csv")
 
