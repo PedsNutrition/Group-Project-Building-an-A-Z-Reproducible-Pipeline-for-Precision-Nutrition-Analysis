@@ -4,7 +4,7 @@
 # Version:  2
 #
 # Date:  2026  Apr
-# Authors: Yue-Tong Chen, Brinley Klievik, Triyani Komang, Eva Kranenburg
+# Authors: Yue-Tong Chen, Brinley Klievik, Komang Triyani, Eva Kranenburg
 #
 # Original Author:   Paraskevi Massara (p.massara@utoronto.ca)
 #
