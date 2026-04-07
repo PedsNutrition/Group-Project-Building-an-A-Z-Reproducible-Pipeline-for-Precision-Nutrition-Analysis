@@ -28,7 +28,7 @@ This dataset contains data collected from ~300 children at 24 months of age, and
 - Socioeconomic factors: household income, maternal education (years)
 - Maternal health factors: maternal BMI (kg/m²), gestational age (weeks)
 - Clinical biomarkers: fasting glucose (mmol/L), C-reactive protein (CRP), alanine aminotransferase (ALT)
-- Child growth measures: sex, age, weight and length at multiple time points (0, 6, 12, 24 months), BMI, and BMI-for-age z-scores (zBMI)
+- Child growth measures: sex, age, head circumference, weight and length at multiple time points (0, 6, 12, 24 months), BMI, and BMI-for-age z-scores (zBMI)
 zBMI at 24 months was used for clustering analysis.
 Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations.
 
