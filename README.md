@@ -1,9 +1,9 @@
 # Design of Data Analysis Pipeline for Precision Nutrition Analysis of Early Childhood Growth Trajectories
 
 # Contributors:
-Yue-Tong Chen
-Brinley Klievik
-Triyani Komang
+Yue-Tong Chen,
+Brinley Klievik,
+Triyani Komang,
 Eva Kranenburg
 
 # Project Overview:
