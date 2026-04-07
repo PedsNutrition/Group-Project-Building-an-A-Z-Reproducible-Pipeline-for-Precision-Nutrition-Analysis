@@ -56,7 +56,7 @@ Ultra-processed food score, energy intake, and household income were used as mat
 Run the scripts in the following order:
 - General Pipeline:
    - YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
-Specific Pipeline:
+- Specific Pipeline:
 1. 1.preprocessing_data.R (cleanining data and generating the full_dataset_april.csv file)
 2. 2.assessing_clustering_tendency.R (cluster tendency)
 3. 3.dist_computation.R (code to visualize and assess Euclidean and Manhattan distances of zBMI at 24 months)
