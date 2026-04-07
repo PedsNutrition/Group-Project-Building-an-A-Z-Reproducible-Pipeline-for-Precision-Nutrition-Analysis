@@ -58,11 +58,12 @@ General Pipeline:
 YTC_Group Project R codes.R (full pipeline: preprocessing → clustering → profiling)
 Specific Pipeline:
 1. 1.preprocessing_data.R (cleanining data and generating the full_dataset_april.csv file)
-2. 2.assessing_clustering_tendency.R
-3. 3.dist_computation.R
-4. 4.clustering.R
-5. 5.clust_validation.R
-6. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
+2. 2.assessing_clustering_tendency.R (cluster tendency)
+3. 3.dist_computation.R (code to visualize and assess Euclidean and Manhattan distances of zBMI at 24 months)
+4. 4.clustering.R (code to cluster zBMI at 24 months)
+5. 5.clust_validation.R (code for validating zBMI at 24 months clusters)
+Additional Script to Assess zBMI data at 24 months:
+7. Assessing_clustering_tendency_zBMI_24m_biological_interpretation.R (assess cluster tendency; requires the cleaned and processed dataset)
 
 # Data Cleaning & Preparation:
 The following preprocessing steps were applied:
@@ -108,7 +109,7 @@ The following preprocessing steps were applied:
 This data pipeline identified growth trajectory clusters providing a framework to evaluate how maternal nutrition and socioeconomic factors relate to child growth, enabling targeted, evidence-based nutritional guidance.
 This pipeline can be leveraged to identify predictors of characteristics of the child, including zBMI at 24 months, to aid in determining maternal dietary factors that influence growth outcomes and establish dietary strategies during pregnancy to promote healthy growth trajectories in the offspring.
 This analysis may also aid in better understanding why child characteristics are heterogeneous and establish predictors, both individually and collectively.
-Overall, this work may contribute to establishing individualized nutritional interventions rather than providing general one-size-fits-all guidelines.
+Overall, by better understading how multi-dimension data influences offspring outcomes, this analysis pipeline may contribute to establishing more precise nutritional interventions rather than providing general one-size-fits-all guidelines.
 
 # Model Limitations: 
 - Cross-sectional, cannot infer causality
