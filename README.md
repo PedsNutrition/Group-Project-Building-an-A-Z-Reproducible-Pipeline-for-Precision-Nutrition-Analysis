@@ -46,6 +46,7 @@ Ultra-processed food score, energy intake, and household income were used as mat
 - 'zBMI_24m Clustering Graphs.pptx' | PowerPoint of zBMI Clustering graphs
 - 'NFS1218_Pediatric Nutrition Pipeline.docx' | CRISP-DM report
 - 'README.docx' | Draft of the README file
+- All images generated from the codes are contained within the folder entitled 'Final Images'
 
 # Installation:
 - Clone the repository
