@@ -94,7 +94,7 @@ This data pipeline identified growth trajectory clusters providing a framework t
 - Findings may not be generalizable beyond this cohort
 
 # Reproducibility:
-- This analysis pipeline uses publicly available data and R scripts allowing for full reproducibility of the attached files.
+- This analysis pipeline uses data and R scripts available on this repository, allowing for full reproducibility of this analysis pipeline.
 - For Euclidean and Manhattan distances, set.seed() was applied to produce a smaller subset of random values for visualization.
 - Biologically implausible age values and zBMI scores were removed from the dataset during preprocessing. The IDs of the individuals removed from downstream analyses are listed in the CRISP-DM report.
 
