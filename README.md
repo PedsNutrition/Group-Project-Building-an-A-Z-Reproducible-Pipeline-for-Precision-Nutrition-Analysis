@@ -32,7 +32,7 @@ This dataset contains data collected from ~300 children at 24 months of age, and
 zBMI at 24 months was used for clustering analysis.
 Ultra-processed food score, energy intake, and household income were used as maternal dietary and socioeconomic exposures for downstream associations.
 
-# R Scripts in this repository:
+# R Scripts in this Repository:
 - '1.preprocessing_data.R' | R script containing the index heatmap depicted in Graph 7 of the CRISP-DM report
 - '2.assessing_clustering_tendency.R' | Supplementary R script assessing clustering tendency
 - '3.dist_computation.R' | R script containing the code to generate randomized subsets of data for Euclidean and Manhattan plots using set.seed()
