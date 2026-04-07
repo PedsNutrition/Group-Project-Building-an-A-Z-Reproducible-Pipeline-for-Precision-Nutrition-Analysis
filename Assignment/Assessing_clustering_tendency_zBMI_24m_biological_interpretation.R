@@ -42,7 +42,7 @@ library(dplyr)
 
 # Load cleaned data set used for analysis
 
-clean_data <- read.csv("final_dataset_april.csv")
+clean_data <- read.csv("final_clean_data.csv")
 
 temp <- dplyr::select(clean_data, zBMI_24m)
 head(temp)
