@@ -106,8 +106,8 @@ tutorial_data_scaled <- scale(tutorial_data)
 # GENERATE DATA PREPARATION FOR CLUSTERING
 # ============================================================
 # Research Question:
-#   Are maternal dietary, socioeconomic, clinical factors, and gut microbiome associated 
-#   with early childhood growth trajectories based on BMI-for-age z scores (zBMI)?
+#   Are maternal dietary and socioeconomic factors associated with 
+#   early childhood growth patterns, defined by BMI-for-age z scores (zBMI) at 24 months of age? 
 
 #1. Load data 
 library(readr)
@@ -316,26 +316,16 @@ plot5 <- grid.arrange(
 
 # ============================================================================
 # PLOT 6: INDEX HEATMAP
-# ============================================================================
-
-# Create matrix showing which k each index voted for
-index_votes <- nbclust_result$Best.nc[1, ]
-index_votes <- index_votes[!is.na(index_votes)]
-
-index_matrix <- data.frame(
-  Index = names(index_votes),
-  Optimal_k = as.numeric(index_votes)
-)
-
+# ===========================================================================
 # Create categorical heatmap
 index_matrix$Index_num <- 1:nrow(index_matrix)
 
 
-index_votes <- nbclust_result$Best.nc[1, ]
-index_votes <- index_votes[!is.na(index_votes) & index_votes >= 2]
+index_votes <- nbclust_ts$Best.nc[1, ]
+index_votes <- index_votes[!is.na(index_votes) & index_votes >= 2 & index_votes <= 12]
 index_matrix <- data.frame(
   Index     = names(index_votes),
-  Optimal_k = as.numeric(index_votes)
+  Optimal_k = as.integer(index_votes)
 )
 
 index_matrix$Index_num <- seq_len(nrow(index_matrix))
@@ -344,7 +334,11 @@ plot6 <- ggplot(index_matrix, aes(x = Optimal_k, y = reorder(Index, Index_num)))
   geom_tile(aes(fill = as.factor(Optimal_k)), color = "white", linewidth = 1) +
   geom_text(aes(label = Optimal_k), color = "white", fontface = "bold", size = 4) +
   scale_fill_brewer(palette = "Spectral", name = "Optimal k") +
-  scale_x_continuous(breaks = 2:8, expand = c(0, 0)) +
+  scale_x_continuous(
+    breaks = 2:12,
+    limits = c(1.4, 12.6),   # explicit limits with padding for tile width
+    expand = c(0, 0)
+  ) +
   labs(
     title = "F. Individual Index Recommendations",
     subtitle = "Each row shows one index's vote for optimal k",
@@ -365,6 +359,8 @@ plot6 <- ggplot(index_matrix, aes(x = Optimal_k, y = reorder(Index, Index_num)))
   )
 
 plot6
+
+print(plot6)
 # ============================================================================
 # CREATE COMBINED FIGURE
 # ============================================================================
